@@ -1,0 +1,144 @@
+﻿variables,Units
+TIMESTAMP,TS
+RECORD,RN
+Hs,W/m^2
+tau,kg/(m s^2)
+u_star,m/s
+Ts_stdev,C
+Ts_Ux_cov,C m/s
+Ts_Uy_cov,C m/s
+Ts_Uz_cov,C m/s
+Ux_stdev,m/s
+Ux_Uy_cov,(m/s)^2
+Ux_Uz_cov,(m/s)^2
+Uy_stdev,m/s
+Uy_Uz_cov,(m/s)^2
+Uz_stdev,m/s
+wnd_spd,m/s
+rslt_wnd_spd,m/s
+wnd_dir_sonic,degrees
+std_wnd_dir,degrees
+wnd_dir_compass,degrees
+Ux_Avg,m/s
+Uy_Avg,m/s
+Uz_Avg,m/s
+Ts_Avg,C
+sonic_azimuth,degrees
+sonic_samples_Tot,samples
+diag_sonic_aggregate,arb
+no_new_sonic_data_Tot,samples
+Fc_li_wpl,mg/(m^2 s)
+LE_li_wpl,W/m^2
+Hc_li,W/m^2
+CO2_li_stdev,mg/m^3
+CO2_li_Ux_cov,mg/(m^2 s)
+CO2_li_Uy_cov,mg/(m^2 s)
+CO2_li_Uz_cov,mg/(m^2 s)
+H2O_li_stdev,g/m^3
+H2O_li_Ux_cov,g/(m^2 s)
+H2O_li_Uy_cov,g/(m^2 s)
+H2O_li_Uz_cov,g/(m^2 s)
+Tc_li_stdev,C
+Tc_li_Ux_cov,C m/s
+Tc_li_Uy_cov,C m/s
+Tc_li_Uz_cov,C m/s
+CO2_li_mean,mg/m^3
+H2O_li_mean,g/m^3
+amb_press_li_mean,kPa
+Tc_li_mean,C
+rho_a_li_mean,kg/m^3
+Fc_li_irga,mg/(m^2 s)
+LE_li_irga,W/m^2
+CO2_li_wpl_LE_li,mg/(m^2 s)
+CO2_li_wpl_H_li,mg/(m^2 s)
+H2O_li_wpl_LE_li,W/m^2
+H2O_li_wpl_H_li,W/m^2
+irga_li_samples_Tot,samples
+diag_irga_li_aggregate,arb
+no_new_data_li_Tot,samples
+sig_error_li_Tot,samples
+agc_li_Avg,%
+agc_thrshld_excded_Tot,samples
+Precip_Tot,mm
+T_tmpr_rh_mean,C
+e_tmpr_rh_mean,kPa
+e_sat_tmpr_rh_mean,kPa
+H2O_tmpr_rh_mean,g/m^3
+RH_tmpr_rh_mean,%
+rho_a_tmpr_rh_mean,kg/m^3
+slowsequence_1_Tot,samples
+Batt_Volt_Min,V
+Solar_Batt_Min,V
+Box_Rh_Avg,
+Panel_Tmpr_Avg,C
+CS655_Wcr_Avg,m^3/m^3
+CS655_Ec_Avg,dS/m
+CS655_Tmpr_Avg,Deg C
+mean_wind_speed,m/s
+mean_wind_direction,Deg
+std_wind_dir,Deg
+n_TOT,samples
+NDVI_Avg,
+NDVIUpRed_Avg,W/m^2 nm
+NDVIUpNIR_Avg,W/m^2 nm
+NDVIIndUp,
+NDVIDownRed_Avg,W/m^2 nm
+NDVIDownNIR_Avg,W/m^2 nm
+NDVIIndDown,
+PRI_Avg,
+PRIUp531_Avg,W/m^2 nm
+PRIUp570_Avg,W/m^2 nm
+PRIIndUp,
+PRIDown531_Avg,W/m^2 nm
+PRIDown570_Avg,W/m^2 nm
+PRIIndDown,
+D5TE_VWC_5cm_Avg,m^3/m^3
+D5TE_P_5cm_Avg,
+D5TE_EC_5cm_Avg,dS/m
+D5TE_T_5cm_Avg,Deg C
+D5TE_VWC_15cm_Avg,m^3/m^3
+D5TE_P_15cm_Avg,
+D5TE_EC_15cm_Avg,dS/m
+D5TE_T_15cm_Avg,Deg C
+D5TE_VWC_30cm_Avg,m^3/m^3
+D5TE_P_30cm_Avg,
+D5TE_EC_30cm_Avg,dS/m
+D5TE_T_30cm_Avg,Deg C
+D5TE_VWC_50cm_Avg,m^3/m^3
+D5TE_P_50cm_Avg,
+D5TE_EC_50cm_Avg,dS/m
+D5TE_T_50cm_Avg,Deg C
+D5TE_VWC_100cm_Avg,m^3/m^3
+D5TE_P_100cm_Avg,
+D5TE_EC_100cm_Avg,dS/m
+D5TE_T_100cm_Avg,Deg C
+D5TE_VWC_200cm_Avg,m^3/m^3
+D5TE_P_200cm_Avg,
+D5TE_EC_200cm_Avg,dS/m
+D5TE_T_200cm_Avg,Deg C
+slowsequence_2_Tot,samples
+SB121TempC_Avg,
+Targ121TempC_Avg,
+Targ121mV_Avg,
+SB1H1TempC_Avg,
+Targ1H1TempC_Avg,
+Targ1H1mV_Avg,
+short_up_Avg,W/m^2
+short_dn_Avg,W/m^2
+long_up_Avg,W/m^2
+long_dn_Avg,W/m^2
+cnr4_T_C_Avg,deg_C
+cnr4_T_K_Avg,K
+long_up_corr_Avg,W/m^2
+long_dn_corr_Avg,W/m^2
+Rs_net_Avg,W/m^2
+Rl_net_Avg,W/m^2
+albedo_Avg,W/m^2
+Rn_Avg,W/m^2
+SQ_110_Avg,Œºmol m-2s-1
+shf_Avg(1),W/m^2
+shf_Avg(2),W/m^2
+shf_mV_Avg(1),
+shf_mV_Avg(2),
+shf_cal(1),W/(m^2 mV)
+shf_cal(2),W/(m^2 mV)
