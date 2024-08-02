@@ -5,8 +5,10 @@ import time
 from datetime import datetime
 from io import StringIO
 import pandas as pd
+from pyclowder import files as pyfiles
+from pyclowder.connectors import Connector
 
-
+conn = Connector("", {})
 base_url = "https://zentracloud.com/api/v4/get_readings"
 api_token = "Token 12345"  # Replace this with a valid token from the ZC API
 device_information = [
@@ -28,6 +30,7 @@ def upload_results(device, filename):
     print("Uploading %s to %s" % (filename, dataset_id))
 
     files = [('File', open(filename, 'rb'))]
+    #r = pyfiles.upload_to_dataset(conn, clowder_url, key, dataset_id, filename)
     r = requests.post(f"{clowder_url}datasets/{dataset_id}/files",
                       files=files, headers={'X-API-key': key}, verify=False)
     new_file_id = r.json()['id']
@@ -61,8 +64,13 @@ for device in device_information:
     if latest is not None:
         params['start_date'] = latest
 
-    response = requests.get(base_url, params=params,
+    try:
+        response = requests.get(base_url, params=params,
                             headers={'content-type': 'application/json', 'Authorization': api_token})
+    except Exception as e:
+        print(e)
+        print("Initial request failed, skipping.")
+        continue
     response.raise_for_status()
     content = json.loads(response.content)
     next_url = content['pagination']['next_url']
