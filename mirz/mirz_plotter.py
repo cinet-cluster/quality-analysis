@@ -172,55 +172,71 @@ def upload_results(src, filename):
 
 
 now = datetime.datetime.now()
-
-targ_time = None # e.g. "06112024-07102024" to backfill a missing plot
-
 for src in ["ILAG", "ILPR"]:
     folder = src_folders[src]
     mirz_files = list_files_of_dataset(mirz_dataset, folder)
-    latest_file = None
-    latest_fileid = None
-    latest_date = None
+    excel_files = []
     for f in mirz_files:
-        if targ_time is not None and f['filename'].find(targ_time) > -1:
-            dt = datetime.datetime.strptime(f['date-created'], "%a %b %d %H:%M:%S GMT %Y")
-            latest_file = f['filename']
-            latest_fileid = f['id']
-            latest_date = dt
-            break
-        elif f['filename'].startswith(file_prefix[src]) and f['filename'].endswith('.xlsx'):
-            dt = datetime.datetime.strptime(f['date-created'], "%a %b %d %H:%M:%S GMT %Y")
-            if latest_date is None or dt > latest_date:
-                latest_file = f['filename']
-                latest_fileid = f['id']
-                latest_date = dt
+        if f['filename'].startswith(file_prefix[src]) and f['filename'].endswith('.xlsx'):
+            excel_files.append(f)
+    pdf_graphs = []
+    sub_files = list_files_of_dataset(mirz_dataset, dest_folders[src])
+    for f in sub_files:
+        if f['filename'].startswith(file_prefix[src]) and f['filename'].endswith('.pdf'):
+            pdf_graphs.append(f['filename'])
 
-    url = requests.get(clowder_base_uri + '/files/' + latest_fileid + '/blob?key=' + MY_API_KEY, verify=False)
-    df = pd.read_excel(url.content, header=1, skiprows=[2, 3])
 
-    # fix erroneous rows
-    df['Timestamps'] = pd.to_datetime(df['TIMESTAMP']).dt.date
+    for f in excel_files:
+        destfile = f['filename'].replace(".xlsx", ".pdf")
+        if destfile in pdf_graphs:
+            print("%s already exists" % destfile)
+            continue
 
-    # Filter to current month
-    #date_val = datetime.datetime.today().replace(month=4, day=1).astimezone().date()
-    #df = df[df['Timestamps'] > date_val]
-    date_val = datetime.datetime.today().replace(day=1)
-    df['Timestamps'] = pd.to_datetime(df['TIMESTAMP'])
-    df.set_index('Timestamps')
+        print("----------"+f['filename']+"----------")
+        url = requests.get(clowder_base_uri + '/files/' + f['id'] + '/blob?key=' + MY_API_KEY, verify=False)
+        df = pd.read_excel(url.content, header=1, skiprows=[2, 3])
 
-    fig = plt.figure()
-    if src in ["ILAG", "ILPR"]:
-        # Derive some new params to plot
-        for cm in ["20cm", "60cm", "110cm", "180cm"]:
-            df[f"AveRaw_O2_{cm}_x100"] = df[f"AveRaw_O2_{cm}"] * 100
-            df[f"VWCdielectric_{cm}_Avg_x100"] = df[f"VWCdielectric_{cm}_Avg"] * 100
-            df[f"VWCmineral_{cm}_Avg_x10000"] = df[f"VWCmineral_{cm}_Avg"] * 10000
-            df[f"electricalConductivity_{cm}_Avg_x10"] = df[f"electricalConductivity_{cm}_Avg"] * 10
-        generate_il_plots(fig, df)
+        # fix erroneous rows
+        df['Timestamps'] = pd.to_datetime(df['TIMESTAMP']).dt.date
 
-    outfile = "plots/%s.pdf" % (latest_file.split('.')[0])
-    plt.savefig(outfile, format="pdf", bbox_inches="tight")
-    print("Generated "+outfile)
-    upload_results(src, outfile)
+        # Filter to current month
+        #date_val = datetime.datetime.today().replace(month=4, day=1).astimezone().date()
+        #df = df[df['Timestamps'] > date_val]
+        date_val = datetime.datetime.today().replace(day=1)
+        df['Timestamps'] = pd.to_datetime(df['TIMESTAMP'])
+        df.set_index('Timestamps')
+
+        fig = plt.figure()
+        if src in ["ILAG", "ILPR"]:
+            # Derive some new params to plot
+            for cm in ["20cm", "60cm", "110cm", "180cm"]:
+                if f"AveRaw_O2_{cm}" in df:
+                    df[f"AveRaw_O2_{cm}_x100"] = df[f"AveRaw_O2_{cm}"] * 100
+                elif f"AvgRawO2_{cm}" in df:
+                    df[f"AveRaw_O2_{cm}_x100"] = df[f"AvgRawO2_{cm}"] * 100
+
+                if f"VWCdielectric_{cm}_Avg" in df:
+                    df[f"VWCdielectric_{cm}_Avg_x100"] = df[f"VWCdielectric_{cm}_Avg"] * 100
+                elif f"VWCdielectric_{cm}" in df:
+                    df[f"VWCdielectric_{cm}_Avg_x100"] = df[f"VWCdielectric_{cm}"] * 100
+
+                if f"VWCmineral_{cm}_Avg" in df:
+                    df[f"VWCmineral_{cm}_Avg_x10000"] = df[f"VWCmineral_{cm}_Avg"] * 10000
+                elif f"VWCmineral_{cm}" in df:
+                    df[f"VWCmineral_{cm}_Avg_x10000"] = df[f"VWCmineral_{cm}"] * 10000
+
+                if f"electricalConductivity_{cm}_Avg" in df:
+                    df[f"electricalConductivity_{cm}_Avg_x10"] = df[f"electricalConductivity_{cm}_Avg"] * 10
+                elif f"electricalConductivity_{cm}" in df:
+                    df[f"electricalConductivity_{cm}_Avg_x10"] = df[f"electricalConductivity_{cm}"] * 10
+            try:
+                generate_il_plots(fig, df)
+            except:
+                continue
+
+        outfile = "plots/%s" % (f['filename'].replace(".xlsx", ".pdf"))
+        plt.savefig(outfile, format="pdf", bbox_inches="tight")
+        print("Generated "+outfile)
+        upload_results(src, outfile)
 
 print("Done.")

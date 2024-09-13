@@ -262,19 +262,22 @@ for device in device_information:
     date_val = datetime.datetime.today().replace(day=1).astimezone()
     df = df[df['Timestamps'] > date_val]
 
-    print("Generating plots...")
-    fig = plt.figure()
-    if device['plot'] == 'atmos':
-        generate_atmos_plots(fig, df)
-    elif device['plot'] == 'atf_soil':
-        generate_atf_soil_plots(fig, df)
-    elif device['plot'] == '5port_soil':
-        generate_5port_soil_plots(fig, df)
-    elif device['plot'] == 'srfp2':
-        generate_srfp2_plots(fig, df)
+    try:
+        print("Generating plots...")
+        fig = plt.figure()
+        if device['plot'] == 'atmos':
+            generate_atmos_plots(fig, df)
+        elif device['plot'] == 'atf_soil':
+            generate_atf_soil_plots(fig, df)
+        elif device['plot'] == '5port_soil':
+            generate_5port_soil_plots(fig, df)
+        elif device['plot'] == 'srfp2':
+            generate_srfp2_plots(fig, df)
 
-    outfile = "plots/%s_%s.pdf" % (device['label'], out_month)
-    plt.savefig(outfile, format="pdf", bbox_inches="tight")
-    upload_results(device, outfile)
+        outfile = "plots/%s_%s.pdf" % (device['label'], out_month)
+        plt.savefig(outfile, format="pdf", bbox_inches="tight")
+        upload_results(device, outfile)
+    except:
+        continue
 
 print("Done.")
